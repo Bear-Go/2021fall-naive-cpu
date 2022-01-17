@@ -9,7 +9,7 @@ EMU_TOP_MODULE := cpu_tst
 EMU_MK := $(OBJ_DIR)/emu.mk
 EMU_BIN := $(OBJ_DIR)/emulator
 EMU_CXXFILES := $(shell find $(EMU_SRC_DIR) -name "*.cpp")
-TEST = add
+TEST = sb
 
 emu: $(EMU_BIN)
 run-emu: emu

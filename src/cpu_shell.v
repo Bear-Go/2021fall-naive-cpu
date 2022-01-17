@@ -1,9 +1,9 @@
 module cpu_tst(
-	input clk,                //时钟
-	input reset,              //复位高有效
-	input [8*8:1] testcase,   //输入要运行的TestCase的字符串
-	output [31:0] dbg_pc,     //dbg_pc输出当前周期已经完成的指令的PC值
-	output [31:0] dbgregs_0,  //直接接到RegFile中去
+	input clk,          
+	input reset,
+	input [8*8:1] testcase, 
+	output [31:0] dbg_pc,
+	output [31:0] dbgregs_0,
 	output [31:0] dbgregs_1,
 	output [31:0] dbgregs_2,	
 	output [31:0] dbgregs_3,
@@ -35,8 +35,8 @@ module cpu_tst(
 	output [31:0] dbgregs_29,	
 	output [31:0] dbgregs_30,
 	output [31:0] dbgregs_31,
-	output done,              //当读取到0xdead10cc的Instr的时候完成拉高，保持PC不变
-	output wb                 //当前周期是否有指令完成
+	output done,
+	output wb
 );
 
 // CPU declaration
@@ -53,7 +53,39 @@ rv32is mycpu(.clock(clk),
              .reset(reset), 
 				 .imemaddr(iaddr), .imemdataout(idataout), .imemclk(iclk), 
 				 .dmemaddr(daddr), .dmemdataout(ddataout), .dmemdatain(ddatain), .dmemrdclk(drdclk), .dmemwrclk(dwrclk), .dmemop(dop), .dmemwe(dwe), 
-				 .dbg_pc(dbg_pc), .done(done), .wb(wb));
+				 .dbg_pc(dbg_pc), .done(done), .wb(wb),
+				.dbgregs_0(dbgregs_0), 
+				.dbgregs_1(dbgregs_1),
+				.dbgregs_2(dbgregs_2),	
+				.dbgregs_3(dbgregs_3),
+				.dbgregs_4(dbgregs_4),
+				.dbgregs_5(dbgregs_5),
+				.dbgregs_6(dbgregs_6),	
+				.dbgregs_7(dbgregs_7),
+				.dbgregs_8(dbgregs_8),
+				.dbgregs_9(dbgregs_9),
+				.dbgregs_10(dbgregs_10),	
+				.dbgregs_11(dbgregs_11),
+				.dbgregs_12(dbgregs_12),
+				.dbgregs_13(dbgregs_13),
+				.dbgregs_14(dbgregs_14),	
+				.dbgregs_15(dbgregs_15),
+				.dbgregs_16(dbgregs_16),
+				.dbgregs_17(dbgregs_17),	
+				.dbgregs_18(dbgregs_18),
+				.dbgregs_19(dbgregs_19),
+				.dbgregs_20(dbgregs_20),
+				.dbgregs_21(dbgregs_21),	
+				.dbgregs_22(dbgregs_22),
+				.dbgregs_23(dbgregs_23),
+				.dbgregs_24(dbgregs_24),
+				.dbgregs_25(dbgregs_25),	
+				.dbgregs_26(dbgregs_26),
+				.dbgregs_27(dbgregs_27),
+				.dbgregs_28(dbgregs_28),
+				.dbgregs_29(dbgregs_29),	
+				.dbgregs_30(dbgregs_30),
+				.dbgregs_31(dbgregs_31));
 
 				  
 //instruction memory, no writing
@@ -81,6 +113,12 @@ always @(posedge clk) begin
     $readmemh({testcase, "_d.hex"},datamem.mymem.ram);
 		$display("~~~ Begin test case %s ~~~", testcase);
 	end
+end
+
+always  @(posedge clk) begin
+    if (done == 1) begin
+        $display("~~~ Binished ~~~");
+    end
 end
 
 /*
